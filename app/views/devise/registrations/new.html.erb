@@ -1,0 +1,30 @@
+<body class="bg-gray-200">
+  <div class="flex items-center justify-center h-screen">
+    <div class="bg-white px-8 py-6 rounded shadow-md">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "mt-4" }) do |f| %>
+        <h2 class="text-lg font-bold mb-4">Sign up</h2>
+
+        <div class="mb-4">
+          <%= f.label :email, class: "block text-gray-700 font-bold mb-2" %>
+          <%= f.email_field :email, autocapitalize: "none", autofocus: true, class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, class: "block text-gray-700 font-bold mb-2" %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, class: "block text-gray-700 font-bold mb-2" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <%= f.submit "Sign up", class: "bg-gradient-to-r from-blue-400 to-blue-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition duration-300" %>
+          
+          <%# render "devise/shared/links" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</body>

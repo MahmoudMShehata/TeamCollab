@@ -1,0 +1,26 @@
+<body class="bg-gray-200">
+  <div class="flex items-center justify-center h-screen">
+    <div class="bg-white px-8 py-6 rounded shadow-md">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "mt-4" }) do |f| %>
+        <%= devise_error_messages! %>
+
+        <h2 class="text-lg font-bold mb-4">Change password</h2>
+
+        <div class="mb-4">
+          <%= f.label :password, class: "block text-gray-700 font-bold mb-2" %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, class: "block text-gray-700 font-bold mb-2" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <%= f.submit "Change password", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+          <%= link_to "Cancel", root_path, class: "text-gray-500 font-bold hover:text-gray-700" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</body>

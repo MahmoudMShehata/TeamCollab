@@ -1,0 +1,32 @@
+<html>
+  <body class="bg-gray-200">
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-white px-8 py-6 rounded shadow-md">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-4" }) do |f| %>
+          <h2 class="text-lg font-bold mb-4">Sign in</h2>
+
+          <div class="mb-4">
+            <%= f.label :email, class: "block text-gray-700 font-bold mb-2" %>
+            <%= f.email_field :email, autocapitalize: "none", autofocus: true, class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          </div>
+
+          <div class="mb-4">
+            <%= f.label :password, class: "block text-gray-700 font-bold mb-2" %>
+            <%= f.password_field :password, autocomplete: "current-password", class: "appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="mb-4">
+              <%= f.check_box :remember_me, class: "mr-2 leading-tight" %>
+              <%= f.label :remember_me, class: "text-sm text-gray-700 leading-tight" %>
+            </div>
+          <% end %>
+
+          <div class="flex items-center justify-between">
+            <%= f.submit "Sign in", class: "bg-gradient-to-r from-blue-400 to-blue-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition duration-300" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>
