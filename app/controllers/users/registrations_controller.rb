@@ -10,9 +10,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    if params[:teamleader] == "true"
+      @user = User.create!(create_params)
+      @user.teamleader = true
+      @user.save!
+
+      redirect_to dashboard_path
+    else
+      @user = User.create!(create_params)
+
+      redirect_to dashboard_path
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -37,6 +47,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
+
+  private
+
+  def create_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :teamleader)
+  end
 
   # protected
 
