@@ -1,0 +1,2 @@
+class BugReport < Task
+end

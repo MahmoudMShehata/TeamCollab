@@ -1,0 +1,2 @@
+class MarketingCampaign < Task
+end

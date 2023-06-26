@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_25_174327) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_192226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "task_pools", force: :cascade do |t|
+    t.string "name"
+    t.integer "team_leader_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.string "type", limit: 20
@@ -23,6 +30,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_174327) do
     t.string "attachment", limit: 255
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "task_pool_id", null: false
+    t.index ["task_pool_id"], name: "index_tasks_on_task_pool_id"
+  end
+
+  create_table "tasks_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.index ["task_id", "user_id"], name: "index_tasks_users_on_task_id_and_user_id"
+    t.index ["user_id", "task_id"], name: "index_tasks_users_on_user_id_and_task_id"
+  end
+
+  create_table "team_members", id: false, force: :cascade do |t|
+    t.bigint "task_pool_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["task_pool_id", "user_id"], name: "index_team_members_on_task_pool_id_and_user_id"
+    t.index ["user_id", "task_pool_id"], name: "index_team_members_on_user_id_and_task_pool_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -38,4 +61,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_174327) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "tasks", "task_pools"
 end

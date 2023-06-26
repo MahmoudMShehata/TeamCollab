@@ -1,8 +1,9 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-User.create!(email: "example@teamcollab.com", password: "123123")
+u = User.create!(email: "leader@teamcollab.com", password: "123123", teamleader: true)
+User.create!(email: "member1@teamcollab.com", password: "123123", teamleader: false)
+User.create!(email: "member2@teamcollab.com", password: "123123", teamleader: false)
+User.create!(email: "member3@teamcollab.com", password: "123123", teamleader: false)
+
+tp = TaskPool.create!(name: "August Sprint", team_leader_id: u.id)
+Task.create!(title: "db crash", type: "BugReport", deadline: Time.now + 30.days, progress: "to do", task_pool_id: tp.id, users: [User.second, User.third])
+Task.create!(title: "users subscribtion", type: "FeatureRequest", deadline: Time.now + 30.days, progress: "in progress", task_pool_id: tp.id, users: [User.third, User.fourth])
+Task.create!(title: "summer season", type: "MarketingCampaign", deadline: Time.now + 30.days, progress: "finished", task_pool_id: tp.id, users: [User.second])
