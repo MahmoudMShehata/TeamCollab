@@ -5,5 +5,9 @@ Rails.application.routes.draw do
   }
   
   get '/dashboard', to: 'home#dashboard'
+  
   root "home#index"
+  
+  resources :tasks
+  resources :task_pools
 end

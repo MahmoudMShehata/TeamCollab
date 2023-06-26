@@ -1,0 +1,27 @@
+<section class="flex flex-row justify-start p-4">
+  <% if current_user.task_pools.empty? %>
+    <div class="flex flex-col justify-center items-center">
+      <p class="flex justify-center items-center block text-gray-700 text-xl font-bold pb-4">You don't have any Task Pool yet.<p>
+      <a href="/create_tasks_pool" class="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-gray-300 bg-indigo-500 hover:bg-indigo-700">Create One!</a>
+      <%= form_with(url: task_pools_path, method: :post, class: "max-w-md mx-auto") do |form| %>
+        <%= form.label :name, "Task Pool Name:", class: "block font-medium text-gray-700" %>
+        <%= form.text_field :name, class: "form-input mt-1 block w-full rounded-md shadow-sm" %>
+        <%= form.submit "Create Task Pool", class: "mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md" %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="flex justify-start items-start bg-gray-200 border-4 border-blue-900 rounded-lg shadow-lg p-6 font-bold">
+      <% @tasks_pools.each do |task_pool| %>
+        <a href="<%= task_pool_url(task_pool) %>">
+          <div class="rounded-box">
+            <h2 class="flex justify-center items-center pb-5"><%= task_pool.name.capitalize %></h2>
+            <p>Tasks: <%= task_pool.tasks.count %></p>
+            <p>Team Members: <%= task_pool.team_members.count %></p>
+            <p>Finished Tasks: <%= task_pool.tasks.where(progress: "finished").count %></p>
+            <p>Unfinished Tasks: <%= task_pool.tasks.where.not(progress: "finished").count %></p>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  <% end %>
+</section>
