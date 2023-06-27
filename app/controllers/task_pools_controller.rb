@@ -1,9 +1,11 @@
 class TaskPoolsController < ApplicationController
   # before_action :require_team_leader, only: [:create, :update, :destroy]
   before_action :find_task_pool, only: [:show, :update, :destroy]
+  authorize_resource
 
   def index
-    @tasks_pools = TaskPool.all
+    @teamleader = User.find(current_user.id)
+    @tasks_pools = @teamleader.task_pools
   end
 
   def show

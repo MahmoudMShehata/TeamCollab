@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_team_leader, only: [:create, :update, :destroy]
+  authorize_resource except: [:index, :show, :update]
 
   def index
     @tasks = Task.all
@@ -22,11 +23,17 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
 
-    if @task.update(task_params)
-      redirect_to @task
+    if current_user.teamleader?
+      @task.update(task_params)
     else
-      render :edit
+      @task.update(member_update)
     end
+
+    # if @task.update(task_params)
+    #   redirect_to @task
+    # else
+    #   render :edit
+    # end
   end
 
   def destroy
@@ -40,6 +47,10 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:type, :title, :description, :deadline, :progress, :attachment)
+  end
+
+  def member_update
+    params.require(:task).permit(:progress, :attachment)
   end
 
   def require_team_leader
