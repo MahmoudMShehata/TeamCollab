@@ -1,18 +1,31 @@
 <div class="flex flex-col justify-center items-center">
   <div class="flex flex-row justify-center items space-x-8 w-10/12">
     <div class="flex-1">
-      <h2 class="text-xl font-bold mb-4">To Do</h2>
+      <div class="flex">
+        <h2 class="text-xl font-bold mb-4">To Do</h2>
+      </div>
       <div class="space-y-4">
         <% @tasks.each do |task| %>
-          <% if task.progress == "to do" %>
+          <% debugger %>
+          <% if task.progress == "to_do" %>
             <div class="border-2 border-red-500 p-4 rounded-md">
-              <h3 class="text-lsg text-black font-bold mb-2"><%= task.title %></h3>
-              <p class="text-md font-bold">Task Type: <%= task.type %></p>
-              <p class="text-md font-bold">Deadline: <%= task.deadline.strftime("%Y-%m-%d") %></p>
-              <p class="text-md font-bold">Collaborators: </p>
-              <% task.users.each do |member| %>
-                <p class="text-md font-bold"><%= member.email %> </p>
-              <% end %>
+              <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+              <div class="flex justify-between w-7/12">
+                <p class="text-blue-500 font-bold whitespace-nowrap">Task Type: </p>
+                <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+              </div>
+              <div class="flex justify-between w-7/12">
+                <p class="text-blue-500 font-bold">Deadline: </p>
+                <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+              </div>
+              <div class="flex">
+                <p class="text-blue-500 font-bold">Collaborators: </p>
+                <div class="flex flex-col">
+                  <% task.users.each do |member| %>
+                    <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+                  <% end %>
+                </div>
+              </div>
             </div>
           <% end %>
         <% end %>
@@ -22,33 +35,53 @@
       <h2 class="text-xl font-bold mb-4">In Progress</h2>
       <div class="space-y-4">
         <% @tasks.each do |task| %>
-          <% if task.progress == "in progress" %>
+          <% if task.progress == "in_progress" %>
             <div class="border-2 border-orange-500 p-4 rounded-md">
-              <h3 class="text-lsg text-black font-bold mb-2"><%= task.title %></h3>
-              <p class="text-md font-bold">Task Type: <%= task.type %></p>
-              <p class="text-md font-bold">Deadline: <%= task.deadline.strftime("%Y-%m-%d") %></p>
-              <p class="text-md font-bold">Collaborators: </p>
-              <% task.users.each do |member| %>
-                <p class="text-md font-bold"><%= member.email %> </p>
-              <% end %>
+              <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+              <div class="flex justify-between w-3/4">
+                <p class="text-blue-500 font-bold whitespace-nowrap">Task Type: </p>
+                <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+              </div>
+              <div class="flex justify-between w-7/12">
+                <p class="text-blue-500 font-bold">Deadline: </p>
+                <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+              </div>
+              <div class="flex">
+                <p class="text-blue-500 font-bold">Collaborators: </p>
+                <div class="flex flex-col">
+                  <% task.users.each do |member| %>
+                    <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+                  <% end %>
+                </div>
+              </div>
             </div>
           <% end %>
         <% end %>
       </div>
     </div>
     <div class="flex-1">
-      <h2 class="text-xl font-bold mb-4">Finished</h2>
+      <h2 class="text-xl font-bold mb-4">Done</h2>
       <div class="space-y-4">
         <% @tasks.each do |task| %>
-          <% if task.progress == "finished" %>
+          <% if task.progress == "done" %>
             <div class="border-2 border-green-500 p-4 rounded-md">
-              <h3 class="text-lsg text-black font-bold mb-2"><%= task.title %></h3>
-              <p class="text-md font-bold">Task Type: <%= task.type %></p>
-              <p class="text-md font-bold">Deadline: <%= task.deadline.strftime("%Y-%m-%d") %></p>
-              <p class="text-md font-bold">Collaborators: </p>
-              <% task.users.each do |member| %>
-                <p class="text-md font-bold"><%= member.email %> </p>
-              <% end %>
+              <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+              <div class="flex justify-between w-10/12">
+                <p class="text-blue-500 font-bold whitespace-nowrap">Task Type: </p>
+                <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+              </div>
+              <div class="flex justify-between w-7/12">
+                <p class="text-blue-500 font-bold">Deadline: </p>
+                <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+              </div>
+              <div class="flex">
+                <p class="text-blue-500 font-bold">Collaborators: </p>
+                <div class="flex flex-col">
+                  <% task.users.each do |member| %>
+                    <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+                  <% end %>
+                </div>
+              </div>
             </div>
           <% end %>
         <% end %>
@@ -56,3 +89,6 @@
     </div>
   </div>
 </div>
+<% if can? :create, Task %>
+  <%= link_to 'New Task', tasks_path %>
+<% end %>

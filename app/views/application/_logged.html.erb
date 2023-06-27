@@ -1,0 +1,20 @@
+<div class="flex">
+  <% if current_user %>
+    <p class="flex text-lg font-medium">
+      Logged in as 
+      <span class="text-white ml-2"><%= current_user.email %></span>
+      <% if current_user.teamleader? %>
+        <svg class="w-6 h-6 text-green-500 ml-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      <% else %>
+        <span class="mr-3">
+      <% end %>
+    </p>
+    <%= form_tag destroy_user_session_path, method: :delete do %>
+      <button type="submit" class="inline-flex items-center px-4 py-1 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-pink-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+        Sign out
+      </button>
+    <% end %>
+  <% end %>
+</div>
