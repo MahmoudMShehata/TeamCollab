@@ -6,13 +6,15 @@
   <div class="hidden md:block">
     <div class="ml-10 flex items-baseline space-x-4">
       <div class="flex justify-between">
-        <a href="/dashboard" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-700">Dashboard</a>
+
+        <a href="<%= current_user ? dashboard_path : root_path %>" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-700">Dashboard</a>
 
         <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-gray-300 hover:bg-indigo-700">Projects</a>
 
         <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-gray-300 hover:bg-indigo-700">Calendar</a>
 
-        <a href="/task_pools" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-gray-300 hover:bg-indigo-700">Tasks Pools</a>
+        <a href="<%= current_user ? task_pools_path : root_path %>" class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-gray-300 hover:bg-indigo-700">Tasks Pools</a>
+
       </div>
     </div>
   </div>
