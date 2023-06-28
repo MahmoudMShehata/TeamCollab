@@ -1,11 +1,12 @@
 <div class="flex">
   <% if current_user %>
-    <p class="flex text-lg font-medium">
+    <p class="flex text-lg font-medium pr-6">
       Logged in as 
       <span class="text-white ml-2"><%= current_user.email %></span>
       <% if current_user.teamleader? %>
-        <svg class="w-6 h-6 text-green-500 ml-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        <svg class="w-6 h-6 text-green-500 ml-2 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2" fill="#c7edde" />
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
       <% else %>
         <span class="mr-3">

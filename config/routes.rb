@@ -9,5 +9,9 @@ Rails.application.routes.draw do
   root "home#index"
   
   resources :tasks
-  resources :task_pools
+  resources :task_pools do
+    member do
+      post 'add_task'
+    end
+  end
 end

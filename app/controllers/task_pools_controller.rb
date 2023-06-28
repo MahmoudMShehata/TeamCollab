@@ -1,6 +1,6 @@
 class TaskPoolsController < ApplicationController
   # before_action :require_team_leader, only: [:create, :update, :destroy]
-  before_action :find_task_pool, only: [:show, :update, :destroy]
+  before_action :find_task_pool, only: [:show, :update, :destroy, :add_task]
   authorize_resource
 
   def index
@@ -26,23 +26,36 @@ class TaskPoolsController < ApplicationController
     # end
   end
 
-  def update
-    if @task_pool.update(task_pool_params)
-      redirect_to task_pool_path(@task_pool)
-    else
-      render :edit
-    end
-  end
+  # def update
+  #   if @task_pool.update(task_pool_params)
+  #     redirect_to task_pool_path(@task_pool)
+  #   else
+  #     render :edit
+  #   end
+  # end
 
   def destroy
     @task_pool.destroy
     redirect_to task_pools_path
   end
 
+  def add_task
+    @task = @task_pool.tasks.create!(task_params)
+    if @task.save
+      redirect_to task_pool_path(@task_pool)
+    else
+      redirect_to task_pool_path(@task_pool)
+    end
+  end
+
   private
 
   def find_task_pool
     @task_pool = TaskPool.find(params[:id])
+  end
+
+  def task_params
+    params.require(:task).permit(:title, :type, :description, :deadline, :assignee_id).merge(progress: "to_do")
   end
 
   # def require_team_leader
