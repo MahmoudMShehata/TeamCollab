@@ -83,6 +83,6 @@ end
 
 gem "devise", "~> 4.9"
 
-gem 'cancancan'
+# gem 'cancancan'
 
 gem 'aws-sdk-s3', '~> 1'

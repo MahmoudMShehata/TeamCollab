@@ -5,129 +5,118 @@
         <h2 class="text-xl font-bold mb-4">To Do</h2>
       </div>
       <div class="space-y-4">
-        <% @tasks.each do |task| %>
-          <% if task.progress == "to_do" %>
-            <div class="border-2 border-red-500 p-3 rounded-md grid grid-cols-3">
-              <h3 class="text-lg text-black font-bold col-span-3"><%= task.title.capitalize %></h3>
-
-              <div class="grid grid-cols-2 items-start w-12">
-                <p class="text-blue-500 font-bold">Task Type:</p>
-                <p class="text-md font-semibold"><%= task.type %></p>
-              </div>
-
-              <div class="grid grid-cols-2 items-start">
-                <p class="text-blue-500 font-bold">Deadline:</p>
-                <p class="text-md font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
-              </div>
-
-              <div class="grid grid-cols-2 items-start">
-                <p class="text-blue-500 font-bold">Collaborators:</p>
-                <div class="flex flex-col">
-                  <% task.users.each do |member| %>
-                    <p class="text-md font-semibold"><%= member.email.truncate(16) %></p>
-                  <% end %>
-                </div>
+      <% @tasks.each do |task| %>
+        <% if task.progress == "to_do" %>
+          <div class="border-2 border-red-500 p-4 rounded-md">
+            <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+            <div class="flex justify-between w-3/4">
+              <p class="text-blue-500 font-bold whitespace-nowrap">Task Type: </p>
+              <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+            </div>
+            <div class="flex justify-between w-7/12">
+              <p class="text-blue-500 font-bold">Deadline: </p>
+              <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+            </div>
+            <div class="flex">
+              <p class="text-blue-500 font-bold">Collaborators: </p>
+              <div class="flex flex-col">
+                <% task.users.each do |member| %>
+                  <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+                <% end %>
               </div>
             </div>
-          <% end %>
+            <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+              <div class="flex justify-between w-3/4 mt-4">
+                <%= form.label :progress, "Progress:" %>
+                <%= form.select :progress, ["to_do", "in_progress", "done"] %>
+              </div>
+              <div class="flex justify-end mt-4">
+                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+              </div>
+            <% end %>
+          </div>
         <% end %>
+      <% end %>
       </div>
     </div>
     <div class="flex-1">
-      <h2 class="text-xl font-bold mb-4">In Progress</h2>
+      <div class="flex">
+        <h2 class="text-xl font-bold mb-4">In Progress</h2>
+      </div>
       <div class="space-y-4">
-        <% @tasks.each do |task| %>
-          <% if task.progress == "in_progress" %>
-            <div class="border-2 border-orange-500 p-3 rounded-md grid grid-cols-3">
-              <h3 class="text-lg text-black font-bold col-span-3"><%= task.title.capitalize %></h3>
-
-              <div class="grid grid-cols-2 items-start w-12">
-                <p class="text-blue-500 font-bold">Task Type:</p>
-                <p class="text-md font-semibold"><%= task.type %></p>
-              </div>
-
-              <div class="grid grid-cols-2 items-start">
-                <p class="text-blue-500 font-bold">Deadline:</p>
-                <p class="text-md font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
-              </div>
-
-              <div class="grid grid-cols-2 items-start">
-                <p class="text-blue-500 font-bold">Collaborators:</p>
-                <div class="flex flex-col">
-                  <% task.users.each do |member| %>
-                    <p class="text-md font-semibold"><%= member.email.truncate(16) %></p>
-                  <% end %>
-                </div>
+      <% @tasks.each do |task| %>
+        <% if task.progress == "in_progress" %>
+          <div class="border-2 border-orange-500 p-4 rounded-md">
+            <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+            <div class="flex justify-between w-3/4">
+              <p class="text-blue-500 font-bold whitespace-nowrap">Task Type: </p>
+              <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+            </div>
+            <div class="flex justify-between w-7/12">
+              <p class="text-blue-500 font-bold">Deadline: </p>
+              <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+            </div>
+            <div class="flex">
+              <p class="text-blue-500 font-bold">Collaborators: </p>
+              <div class="flex flex-col">
+                <% task.users.each do |member| %>
+                  <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+                <% end %>
               </div>
             </div>
-          <% end %>
+            <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+              <div class="flex justify-between w-3/4 mt-4">
+                <%= form.label :progress, "Progress:" %>
+                <%= form.select :progress, ["to_do", "in_progress", "done"] %>
+              </div>
+              <div class="flex justify-end mt-4">
+                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+              </div>
+            <% end %>
+          </div>
         <% end %>
+      <% end %>
       </div>
     </div>
     <div class="flex-1">
-      <h2 class="text-xl font-bold mb-4">Done</h2>
+      <div class="flex">
+        <h2 class="text-xl font-bold mb-4">Done</h2>
+      </div>
       <div class="space-y-4">
-        <% @tasks.each do |task| %>
-          <% if task.progress == "done" %>
-            <div class="border-2 border-green-500 p-3 rounded-md grid grid-cols-3">
-              <h3 class="text-lg text-black font-bold col-span-3"><%= task.title.capitalize %></h3>
-
-              <div class="grid grid-cols-2 items-start w-12">
-                <p class="text-blue-500 font-bold">Task Type:</p>
-                <p class="text-md font-semibold"><%= task.type %></p>
-              </div>
-
-              <div class="grid grid-cols-2 items-start">
-                <p class="text-blue-500 font-bold">Deadline:</p>
-                <p class="text-md font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
-              </div>
-
-              <div class="grid grid-cols-2 items-start">
-                <p class="text-blue-500 font-bold">Collaborators:</p>
-                <div class="flex flex-col">
-                  <% task.users.each do |member| %>
-                    <p class="text-md font-semibold"><%= member.email.truncate(16) %></p>
-                  <% end %>
-                </div>
+      <% @tasks.each do |task| %>
+        <% if task.progress == "done" %>
+          <div class="border-2 border-green-500 p-4 rounded-md">
+            <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+            <div class="flex justify-between w-3/4">
+              <p class="text-blue-500 font-bold whitespace-nowrap">Task Type: </p>
+              <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+            </div>
+            <div class="flex justify-between w-7/12">
+              <p class="text-blue-500 font-bold">Deadline: </p>
+              <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+            </div>
+            <div class="flex">
+              <p class="text-blue-500 font-bold">Collaborators: </p>
+              <div class="flex flex-col">
+                <% task.users.each do |member| %>
+                  <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+                <% end %>
               </div>
             </div>
-          <% end %>
+            <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+              <div class="flex justify-between w-3/4 mt-4">
+                <%= form.label :progress, "Progress:" %>
+                <%= form.select :progress, ["to_do", "in_progress", "done"] %>
+              </div>
+              <div class="flex justify-end mt-4">
+                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+              </div>
+            <% end %>
+          </div>
         <% end %>
+      <% end %>
       </div>
     </div>
   </div>
 </div>
-
-<% if can? :create, Task %>
-  <section class="flex flex-col justify-center items-center pt-6">
-    
-    <div class="flex flex-col justify-center items-center bg-white rounded-md border border-gray-500 p-4">
-    <h2 class="text-xl font-bold mb-4 text-[#3182ce]">Add Task</h2>
-      <%= form_with(model: [@task_pool, Task.new], url: add_task_task_pool_path(@task_pool), local: true) do |form| %>
-        <div class="space-y-2">
-          <div class="flex">
-            <%= form.label :title, class: "block font-medium text-gray-700 pr-3 w-32" %>
-            <%= form.text_field :title, required: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300" %>
-          </div>
-          <div class="flex">
-            <%= form.label :description, class: "block font-medium text-gray-700 pr-3" %>
-            <%= form.text_area :description, required: false, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300" %>
-          </div>
-          <div class="flex">
-            <%= form.label :deadline, class: "block font-medium text-gray-700 pr-3 w-32" %>
-            <%= form.date_field :deadline, required: true, class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300" %>
-          </div>
-          <div class="flex">
-            <%= form.label :assignee_id, class: "block font-medium text-gray-700 pr-3 w-32" %>
-            <%# form.collection_select(:assignee_id, User.where(teamleader: false), :id, :name, { prompt: true }, { class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300" }) %>
-          </div>
-          <div class="flex">
-            <%= form.label :type, class: "block font-medium text-gray-700 pr-3 w-32" %>
-            <%= form.select :type, Task.task_types.keys, { prompt: true }, { class: "form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300" } %>
-          </div>
-        </div>
-        <%= form.submit "Create Task", class: "inline-flex items-center justify-center px-4 py-1 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4" %>
-      <% end %>
-    </div>
-  </section>
-<% end %>
+<%= render partial: 'task_pool_partials/add_task' %>

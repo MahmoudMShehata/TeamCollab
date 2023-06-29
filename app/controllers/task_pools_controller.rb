@@ -1,7 +1,7 @@
 class TaskPoolsController < ApplicationController
   # before_action :require_team_leader, only: [:create, :update, :destroy]
   before_action :find_task_pool, only: [:show, :update, :destroy, :add_task]
-  authorize_resource
+  authorize_resource except: [:index, :show]
 
   def index
     @teamleader = User.find(current_user.id)
@@ -55,7 +55,7 @@ class TaskPoolsController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :type, :description, :deadline, :assignee_id).merge(progress: "to_do")
+    params.require(:task).permit(:title, :type, :description, :deadline, :user_ids).merge(progress: "to_do")
   end
 
   # def require_team_leader

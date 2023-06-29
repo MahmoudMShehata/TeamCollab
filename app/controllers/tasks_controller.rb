@@ -22,7 +22,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-
+    @task.update(member_update)
     if current_user.teamleader?
       @task.update(task_params)
     else
@@ -50,7 +50,17 @@ class TasksController < ApplicationController
   end
 
   def member_update
-    params.require(:task).permit(:progress, :attachment)
+    params.require(resource_type).permit(:progress, :attachment)
+  end
+
+  def resource_type
+    if params.key?("bug_report")
+      "bug_report"
+    elsif params.key?("feature_request")
+      "feature_request"
+    elsif params.key?("marketing_campaign")
+      "marketing_campaign"
+    end
   end
 
   def require_team_leader

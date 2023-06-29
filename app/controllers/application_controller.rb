@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   end
 
   def root
-    flash[:error] = "You must be logged in to access this page"
+    flash[:error] = "You have to be logged in."
     
     redirect_to root_path unless current_user
   end
