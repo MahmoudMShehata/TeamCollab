@@ -4,8 +4,8 @@ class TaskPoolsController < ApplicationController
   authorize_resource except: [:index, :show]
 
   def index
-    @teamleader = User.find(current_user.id)
-    @tasks_pools = @teamleader.task_pools
+    @user = User.find(current_user.id)
+    @user.teamleader? ? @task_pools = @user.task_pools.uniq : @task_pools = @user.assigned_task_pools.uniq
   end
 
   def show
@@ -57,8 +57,4 @@ class TaskPoolsController < ApplicationController
   def task_params
     params.require(:task).permit(:title, :type, :description, :deadline, :user_ids).merge(progress: "to_do")
   end
-
-  # def require_team_leader
-  #   redirect_to(root_path) unless current_user and current_user.teamleader?
-  # end
 end

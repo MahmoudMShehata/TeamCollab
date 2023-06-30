@@ -17,11 +17,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @user.teamleader = true
       @user.save!
 
-      redirect_to dashboard_path
+      redirect_to user_session_path
     else
       @user = User.create!(create_params)
 
-      redirect_to dashboard_path
+      redirect_to user_session_path
     end
   end
 

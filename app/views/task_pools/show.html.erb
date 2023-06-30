@@ -6,7 +6,7 @@
       </div>
       <div class="space-y-4">
       <% @tasks.each do |task| %>
-        <% if task.progress == "to_do" %>
+        <% if to_do(task) %>
           <div class="border-2 border-red-500 p-4 rounded-md">
             <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
             <div class="flex justify-between w-3/4">
@@ -25,14 +25,16 @@
                 <% end %>
               </div>
             </div>
-            <%= form_for(task, url: task_path(task), method: :put) do |form| %>
-              <div class="flex justify-between w-3/4 mt-4">
-                <%= form.label :progress, "Progress:" %>
-                <%= form.select :progress, ["to_do", "in_progress", "done"] %>
-              </div>
-              <div class="flex justify-end mt-4">
-                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-              </div>
+            <% if owns(task, current_user) %>
+              <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+                <div class="flex justify-between w-3/4 mt-4">
+                  <%= form.label :progress, "Progress:" %>
+                  <%= form.select :progress, ["to_do", "in_progress", "done"] %>
+                </div>
+                <div class="flex justify-end mt-4">
+                  <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+                </div>
+              <% end %>
             <% end %>
           </div>
         <% end %>
@@ -45,7 +47,7 @@
       </div>
       <div class="space-y-4">
       <% @tasks.each do |task| %>
-        <% if task.progress == "in_progress" %>
+        <% if in_progress(task) %>
           <div class="border-2 border-orange-500 p-4 rounded-md">
             <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
             <div class="flex justify-between w-3/4">
@@ -64,14 +66,16 @@
                 <% end %>
               </div>
             </div>
-            <%= form_for(task, url: task_path(task), method: :put) do |form| %>
-              <div class="flex justify-between w-3/4 mt-4">
-                <%= form.label :progress, "Progress:" %>
-                <%= form.select :progress, ["to_do", "in_progress", "done"] %>
-              </div>
-              <div class="flex justify-end mt-4">
-                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-              </div>
+            <% if owns(task, current_user) %>
+              <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+                <div class="flex justify-between w-3/4 mt-4">
+                  <%= form.label :progress, "Progress:" %>
+                  <%= form.select :progress, ["to_do", "in_progress", "done"] %>
+                </div>
+                <div class="flex justify-end mt-4">
+                  <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+                </div>
+              <% end %>
             <% end %>
           </div>
         <% end %>
@@ -84,7 +88,7 @@
       </div>
       <div class="space-y-4">
       <% @tasks.each do |task| %>
-        <% if task.progress == "done" %>
+        <% if done(task) %>
           <div class="border-2 border-green-500 p-4 rounded-md">
             <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
             <div class="flex justify-between w-3/4">
@@ -103,14 +107,16 @@
                 <% end %>
               </div>
             </div>
-            <%= form_for(task, url: task_path(task), method: :put) do |form| %>
-              <div class="flex justify-between w-3/4 mt-4">
-                <%= form.label :progress, "Progress:" %>
-                <%= form.select :progress, ["to_do", "in_progress", "done"] %>
-              </div>
-              <div class="flex justify-end mt-4">
-                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-              </div>
+            <% if owns(task, current_user) %>
+              <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+                <div class="flex justify-between w-3/4 mt-4">
+                  <%= form.label :progress, "Progress:" %>
+                  <%= form.select :progress, ["to_do", "in_progress", "done"] %>
+                </div>
+                <div class="flex justify-end mt-4">
+                  <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+                </div>
+              <% end %>
             <% end %>
           </div>
         <% end %>

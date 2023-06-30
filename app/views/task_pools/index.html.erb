@@ -1,18 +1,24 @@
 <section class="flex flex-row justify-start p-4 space-x-8">
-  <% if current_user.teamleader? && current_user.task_pools.empty? %>
-    <div class="flex flex-col justify-center items-center">
-      <p class="flex justify-center items-center block text-gray-700 text-xl font-bold pb-4">You don't have any Task Pool yet.<p>
-      <a href="/create_tasks_pool" class="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-gray-300 bg-indigo-500 hover:bg-indigo-700">Create One!</a>
-      <%= form_with(url: task_pools_path, method: :post, class: "max-w-md mx-auto") do |form| %>
-        <%= form.label :name, "Task Pool Name:", class: "block font-medium text-gray-700" %>
-        <%= form.text_field :name, class: "form-input mt-1 block w-full rounded-md shadow-sm" %>
-        <%= form.submit "Create Task Pool", class: "mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md" %>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="flex flex-col">
-      <% @tasks_pools.each do |task_pool| %>
+  <% unless current_user.teamleader? %>
+    <% unless @task_pools.empty? %>
+      <% @task_pools.each do |task_pool| %>
         <div class="flex justify-start items-start bg-gray-200 border-4 border-blue-900 rounded-lg shadow-lg p-6 font-bold">
+          <a href="<%= task_pool_url(task_pool) %>">
+            <div class="rounded-box">
+              <h2 class="flex justify-center items-center pb-5"><%= task_pool.name.capitalize %></h2>
+              <p>Tasks: <%= task_pool.tasks.count %></p>
+              <p>Team Members: <%= task_pool.team_members.count %></p>
+            </div>
+          </a>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="flex justify-center items-center block text-gray-700 text-xl font-bold pb-4">You're not assigned to any Task Pool yet.<p>
+    <% end %>
+  <% else %>
+    <div class="flex">
+      <% @task_pools.each do |task_pool| %>
+        <div class="flex justify-start items-start bg-gray-200 border-4 border-blue-900 rounded-lg shadow-lg p-6 font-bold mr-8">
           <a href="<%= task_pool_url(task_pool) %>">
             <div class="rounded-box">
               <h2 class="flex justify-center items-center pb-5"><%= task_pool.name.capitalize %></h2>
@@ -25,14 +31,16 @@
           </a>
         </div>
       <% end %>
-      <div class="flex flex-col justify-center items-center bg-white rounded-md border border-gray-500 p-4 mt-10">
-        <h2 class="text-xl font-bold mb-4 text-[#3182ce]">Create New Task Pool</h2>
-        <%= form_with(url: task_pools_path, method: :post, class: "max-w-md mx-auto mt-2") do |form| %>
-          <%= form.label :name, "Task Pool Name:", class: "block font-medium text-gray-700" %>
-          <%= form.text_field :name, class: "form-input mt-1 block w-full rounded-md shadow-sm border border-gray-400" %>
-          <%= form.submit "Create Task Pool", class: "mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md" %>
-        <% end %>
-      </div>
+      <% if can? :create, TaskPool %>
+        <div class="flex flex-col justify-center items-center bg-white rounded-md border border-gray-500 p-4">
+          <h2 class="text-xl font-bold mb-4 text-[#3182ce]">Create New Task Pool</h2>
+          <%= form_with(url: task_pools_path, method: :post, class: "max-w-md mx-auto mt-2") do |form| %>
+            <%= form.label :name, "Task Pool Name:", class: "block font-medium text-gray-700" %>
+            <%= form.text_field :name, class: "form-input mt-1 block w-full rounded-md shadow-sm border border-gray-400" %>
+            <%= form.submit "Create Task Pool", class: "mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md" %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </section>
