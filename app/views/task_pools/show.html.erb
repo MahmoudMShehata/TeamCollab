@@ -6,6 +6,7 @@
       </div>
       <div class="space-y-4">
       <% @tasks.each do |task| %>
+      <%# debugger %>
         <% if to_do(task) %>
           <div class="border-2 border-red-500 p-4 rounded-md">
             <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>

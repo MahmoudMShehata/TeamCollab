@@ -41,11 +41,7 @@ class TaskPoolsController < ApplicationController
 
   def add_task
     @task = @task_pool.tasks.create!(task_params)
-    if @task.save
-      redirect_to task_pool_path(@task_pool)
-    else
-      redirect_to task_pool_path(@task_pool)
-    end
+    redirect_to task_pool_path(@task_pool)
   end
 
   private

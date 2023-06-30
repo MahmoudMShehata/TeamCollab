@@ -1,6 +1,6 @@
 module TaskPoolsHelper
   def owns(task, current_user)
-    task.users.include?(current_user) && !current_user.teamleader?
+    task.users.include?(current_user) || current_user.teamleader?
   end
 
   def to_do(task)

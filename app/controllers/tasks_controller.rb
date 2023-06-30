@@ -23,11 +23,12 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     @task.update(member_update)
-    if current_user.teamleader?
-      @task.update(task_params)
-    else
-      @task.update(member_update)
-    end
+    redirect_back(fallback_location: root_path)
+    # if current_user.teamleader?
+    #   @task.update(task_params)
+    # else
+    #   @task.update(member_update)
+    # end
 
     # if @task.update(task_params)
     #   redirect_to @task
