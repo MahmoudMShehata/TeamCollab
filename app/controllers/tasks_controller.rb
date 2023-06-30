@@ -39,9 +39,10 @@ class TasksController < ApplicationController
 
   def destroy
     @task = Task.find(params[:id])
+    task_pool = @task.task_pool
     @task.destroy
 
-    redirect_to tasks_path
+    redirect_to task_pool_path(task_pool)
   end
 
   private
