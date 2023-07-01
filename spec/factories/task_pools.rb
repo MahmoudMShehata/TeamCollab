@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :task_pool do
-    name { "Task Pool" }
+    name { 'Task Pool' }
     team_leader { association(:user) }
     created_at { Time.current }
     updated_at { Time.current }

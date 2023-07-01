@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'database_cleaner'
 require 'spec_helper'
 require 'rspec/rails'
 require 'factory_bot_rails'
 require 'faker'
 require 'shoulda/matchers'
-require "active_storage/engine"
-require "active_storage/attached"
+require 'active_storage/engine'
+require 'active_storage/attached'
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -38,7 +40,7 @@ RSpec.configure do |config|
   end
 
   config.include Devise::Test::IntegrationHelpers, type: :request
-  
+
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 end

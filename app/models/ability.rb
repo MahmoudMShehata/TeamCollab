@@ -4,9 +4,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.teamleader?
-      can :manage, Task
-      can :manage, TaskPool
-    end
+    return unless user.teamleader?
+
+    can :manage, Task
+    can :manage, TaskPool
   end
 end

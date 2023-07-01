@@ -1,0 +1,34 @@
+require:
+  - rubocop-rails
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
+    - 'app/controllers/desktop_clients_controller.rb'
+    - 'app/controllers/statics_controller.rb'
+  Include:
+    - '**/*.rb'
+    - '**/*.rake'
+    - '**/Gemfile'
+    - '**/Rakefile'
+    - 'db/seeds.rb'
+  TargetRubyVersion: 2.6
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*.rb'
+Style/Documentation:
+  Enabled: false
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*.rb'
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+    - 'config/environments/*.rb'
+    - 'config/routes.rb'
+Rails/HasAndBelongsToMany:
+  Enabled: false

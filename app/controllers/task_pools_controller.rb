@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class TaskPoolsController < ApplicationController
-  before_action :find_task_pool, only: [:show, :update, :destroy, :add_task]
-  authorize_resource except: [:index, :show]
+  before_action :find_task_pool, only: %i[show destroy add_task]
+  authorize_resource except: %i[index show]
 
   def index
     @user = User.find(current_user.id)
-    @user.teamleader? ? @task_pools = @user.task_pools.uniq : @task_pools = @user.assigned_task_pools.uniq
+    @task_pools = @user.teamleader? ? @user.task_pools.uniq : @user.assigned_task_pools.uniq
   end
 
   def show
@@ -35,6 +37,6 @@ class TaskPoolsController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :type, :description, :deadline, :user_ids).merge(progress: "to_do")
+    params.require(:task).permit(:title, :type, :description, :deadline, :user_ids).merge(progress: 'to_do')
   end
 end

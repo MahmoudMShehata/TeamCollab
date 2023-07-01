@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def login(user)
   post user_session_path, params: {
     user: {
@@ -6,7 +8,6 @@ def login(user)
   }
   follow_redirect!
 end
-
 
 def login_admin(admin)
   post admin_user_session_path, params: {

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class TasksController < ApplicationController
-  before_action :require_team_leader, only: [:create, :update, :destroy]
-  authorize_resource except: [:index, :show, :update]
+  before_action :require_team_leader, only: %i[create update destroy]
+  authorize_resource except: %i[index show update]
 
   def index
     @tasks = Task.all
@@ -19,7 +21,7 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     @task.update!(member_update)
-    
+
     redirect_back(fallback_location: root_path)
   end
 
@@ -32,9 +34,17 @@ class TasksController < ApplicationController
   end
 
   def add_collaborator
-    debugger
     @task = Task.find(params[:id])
-    @new_member = User.find(params[:feature_request][:user_ids].to_i)
+
+    case
+    when params[:feature_request]
+      @new_member = User.find(params[:feature_request][:user_ids].to_i)
+    when params[:bug_report]
+      @new_member = User.find(params[:bug_report][:user_ids].to_i)
+    when params[:marketing_campaign]
+      @new_member = User.find(params[:marketing_campaign][:user_ids].to_i)
+    end
+
     @task.users << @new_member unless @task.users.include?(@new_member)
 
     redirect_back(fallback_location: root_path)
@@ -51,16 +61,16 @@ class TasksController < ApplicationController
   end
 
   def resource_type
-    if params.key?("bug_report")
-      "bug_report"
-    elsif params.key?("feature_request")
-      "feature_request"
-    elsif params.key?("marketing_campaign")
-      "marketing_campaign"
+    if params.key?('bug_report')
+      'bug_report'
+    elsif params.key?('feature_request')
+      'feature_request'
+    elsif params.key?('marketing_campaign')
+      'marketing_campaign'
     end
   end
 
   def require_team_leader
-    redirect_to(root_path) unless current_user and current_user.teamleader?
+    redirect_to(root_path) unless current_user&.teamleader?
   end
 end
