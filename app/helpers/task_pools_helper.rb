@@ -14,4 +14,13 @@ module TaskPoolsHelper
   def done(task)
     task.progress == "done"
   end
+
+  def show_attachment(task)
+    if task.attachment.id
+      blob = ActiveStorage::Blob.find(task.attachment.id) 
+      return blob.filename.to_s
+    else
+      return "No attached file yet."
+    end
+  end
 end

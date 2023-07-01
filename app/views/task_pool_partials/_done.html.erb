@@ -1,0 +1,48 @@
+<% @tasks.each do |task| %>
+  <% if done(task) %>
+    <div class="border-2 border-green-500 p-4 rounded-md">
+      <div class="flex justify-between">
+        <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
+        <button><%= button_to "Delete Task", task_path(task), method: :delete, class: "bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded" %></button>
+      </div>
+      <div class="flex-col">
+        <div class="flex">
+          <p class="text-blue-500 font-bold whitespace-nowrap mr-10">Task Type: </p>
+          <p class="text-md ml-2 font-semibold"><%= task.type %></p>
+        </div>
+        <div class="flex">
+          <p class="text-blue-500 font-bold mr-12">Deadline: </p>
+          <p class="text-md ml-2 font-semibold"><%= task.deadline.strftime("%m-%d") %></p>
+        </div>
+        <div class="flex">
+          <p class="text-blue-500 font-bold mr-3">Collaborators: </p>
+          <div class="flex flex-col">
+            <% task.users.each do |member| %>
+              <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+            <% end %>
+          </div>
+        </div>
+        <% if owns(task, current_user) %>
+          <%= form_for(task, url: task_path(task), method: :put) do |form| %>
+            <div class="flex-col mt-4">
+              <div class="flex">
+                <%= form.label :progress, "Progress:", class:"text-blue-500 font-bold whitespace-nowrap mr-14" %>
+                <%= form.select :progress, ["to_do", "in_progress", "done"], {}, class: "bg-white border border-gray-300 rounded-md px-4 pr-8 shadow-sm text-sm" %>
+              </div>
+              <div class="flex">
+                <%= form.label :attachment, "Attachment:", class:"text-blue-500 font-bold whitespace-nowrap mr-8 mt-4" %>
+                <div class="flex flex-col">
+                  <%= form.file_field :attachment, class: "bg-white border border-gray-300 rounded-md shadow-sm text-sm mt-4" %>
+                  <p class="text-md ml-2 font-semibold"><%= show_attachment(task) %></p>
+                </div>
+              </div>                  
+              <div class="flex justify-end mt-4">
+                <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded" %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
