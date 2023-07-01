@@ -92,5 +92,37 @@ RSpec.describe TasksController, type: :request do
         expect(response).to redirect_to(root_path)
       end
     end
+  
+    
+  describe "#add_collaborator" do
+    let(:task) { create(:task, type: "FeatureRequest") }
+    let(:member) { create(:user, teamleader: false) }
+
+    before do
+      sign_in team_leader
+    end
+
+    it "adds a new user to the task" do
+      expect {
+        post add_collaborator_task_path(task.id), params: { feature_request: { user_ids: member.id } }
+      }.to change { task.users.count }.by(1)
+    end
+
+    context "when collaborator is already on the task" do
+      before do
+        task.users << member
+      end
+
+      it "does not add a new user to the task" do
+        expect {
+          post add_collaborator_task_path(task.id), params: { feature_request: { user_ids: member.id } }
+        }.not_to change { task.users.count }
+      end
+
+      it "redirects back to the previous page" do
+        post add_collaborator_task_path(task.id), params: { feature_request: { user_ids: user.id } }
+        expect(response).to redirect_to(root_path)
+      end
+    end
   end
 end

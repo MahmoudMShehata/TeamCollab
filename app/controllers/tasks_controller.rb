@@ -31,6 +31,15 @@ class TasksController < ApplicationController
     redirect_to task_pool_path(task_pool)
   end
 
+  def add_collaborator
+    debugger
+    @task = Task.find(params[:id])
+    @new_member = User.find(params[:feature_request][:user_ids].to_i)
+    @task.users << @new_member unless @task.users.include?(@new_member)
+
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def task_params

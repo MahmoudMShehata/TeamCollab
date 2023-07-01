@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   
   root "home#index"
   
-  resources :tasks
+  resources :tasks do
+    member do
+      post 'add_collaborator'
+    end
+  end
   resources :task_pools do
     member do
       post 'add_task'

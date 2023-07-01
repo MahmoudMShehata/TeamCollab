@@ -3,7 +3,6 @@
     <div class="flex flex-col justify-center items-center bg-white rounded-md border border-gray-500 p-4">
       <h2 class="text-xl font-bold mb-4 text-[#3182ce]">Add Task</h2>
       <%= form_with(model: [@task_pool, Task.new], url: add_task_task_pool_path(@task_pool), local: true, html: { id: "add-task-form" }) do |form| %>
-        <%# form.hidden_field :task, value: "task" %>
         <div class="space-y-2">
           <div class="flex">
             <%= form.label :title, class: "block font-medium text-gray-700 pr-3 w-32" %>
