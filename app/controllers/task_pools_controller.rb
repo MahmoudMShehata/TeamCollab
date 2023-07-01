@@ -1,5 +1,4 @@
 class TaskPoolsController < ApplicationController
-  # before_action :require_team_leader, only: [:create, :update, :destroy]
   before_action :find_task_pool, only: [:show, :update, :destroy, :add_task]
   authorize_resource except: [:index, :show]
 
@@ -14,25 +13,10 @@ class TaskPoolsController < ApplicationController
   end
 
   def create
-    # debugger
     @task_pool = TaskPool.create!(name: params[:name], team_leader_id: current_user.id)
 
     redirect_to task_pools_path
-
-    # if @task_pool.save
-    #   redirect_to task_pool_path(@task_pool)
-    # else
-    #   render :new
-    # end
   end
-
-  # def update
-  #   if @task_pool.update(task_pool_params)
-  #     redirect_to task_pool_path(@task_pool)
-  #   else
-  #     render :edit
-  #   end
-  # end
 
   def destroy
     @task_pool.destroy
