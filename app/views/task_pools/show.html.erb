@@ -31,9 +31,13 @@
               <% if owns(task, current_user) %>
                 <%= form_for(task, url: task_path(task), method: :put) do |form| %>
                   <div class="flex justify-between w-3/4 mt-4">
-                    <%= form.label :progress, "Progress:" %>
+                    <%= form.label :progress, "Progress:", class:"text-blue-500 font-bold whitespace-nowrap" %>
                     <%= form.select :progress, ["to_do", "in_progress", "done"] %>
                   </div>
+                  <div class="flex justify-between mt-4">
+                    <%= form.label :attachment, "Attachment:", class:"text-blue-500 font-bold whitespace-nowrap" %>
+                    <%= form.file_field :attachment %>
+                  </div>                  
                   <div class="flex justify-end mt-4">
                     <%= form.submit "Update Progress", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
                   </div>

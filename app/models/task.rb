@@ -1,6 +1,5 @@
 class Task < ApplicationRecord
-  # enum progress: [:to_do, :in_progress, :done]
-
+  has_one_attached :attachment
   validates :progress, presence: true
 
   belongs_to :task_pool

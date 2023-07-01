@@ -22,7 +22,10 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.update(member_update)
+    # @task.attachment.attach(params[:attachment]) if params[:attachment]
+    @task.update!(member_update)
+    
+    
     redirect_back(fallback_location: root_path)
     # if current_user.teamleader?
     #   @task.update(task_params)
