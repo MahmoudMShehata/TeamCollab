@@ -2,7 +2,13 @@
 
 FactoryBot.define do
   factory :user do
-    email       { Faker::Internet.email  }
-    password    { 111111  }
+    email { Faker::Internet.email }
+    password { "password" }
+    password_confirmation { "password" }
+    teamleader { false }
+  end
+
+  factory :team_leader, parent: :user do
+    teamleader { true }
   end
 end

@@ -14,6 +14,13 @@ amazon:
   region: eu-north-1
   bucket: teamcollabs-development
 
+test:
+  service: S3
+  access_key_id: AKIA2IPOOV7LXLZ72MFZ
+  secret_access_key: SioHDPeCtosso+9MsNFMg0Y00a1qA0ocyEywsf4p
+  region: eu-north-1
+  bucket: teamcollabs-development
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS

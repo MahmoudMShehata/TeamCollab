@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
   has_one_attached :attachment
+  validates :title, presence: true
   validates :progress, presence: true
 
   belongs_to :task_pool

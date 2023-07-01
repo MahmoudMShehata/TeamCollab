@@ -4,7 +4,11 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'database_cleaner'
 require 'spec_helper'
 require 'rspec/rails'
-
+require 'factory_bot_rails'
+require 'faker'
+require 'shoulda/matchers'
+require "active_storage/engine"
+require "active_storage/attached"
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

@@ -79,10 +79,14 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 gem "devise", "~> 4.9"
 
 gem 'cancancan'
+
+gem 'rails-dom-testing', '~> 2.0'
 
 gem 'aws-sdk-s3', '~> 1'
