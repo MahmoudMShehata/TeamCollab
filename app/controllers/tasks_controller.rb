@@ -13,31 +13,14 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
 
-    if @task.save
-      redirect_to @task
-    else
-      render :new
-    end
+    redirect_back(fallback_location: root_path)
   end
 
   def update
     @task = Task.find(params[:id])
-    # @task.attachment.attach(params[:attachment]) if params[:attachment]
     @task.update!(member_update)
     
-    
     redirect_back(fallback_location: root_path)
-    # if current_user.teamleader?
-    #   @task.update(task_params)
-    # else
-    #   @task.update(member_update)
-    # end
-
-    # if @task.update(task_params)
-    #   redirect_to @task
-    # else
-    #   render :edit
-    # end
   end
 
   def destroy
