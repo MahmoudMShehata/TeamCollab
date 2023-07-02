@@ -21,7 +21,9 @@
           <div class="flex flex-col">
             <% task.users.each do |member| %>
               <div class="flex">
-                <%= link_to 'x', remove_collaborator_task_path(task, user_id: member.id, task_pool_id: @task_pool.id), method: :delete, class: 'bg-red-500 hover:bg-red-600 text-white font-bold px-1 mb-2 rounded-full' %>
+                <% if can? :create, Task %>
+                  <%= link_to 'x', remove_collaborator_task_path(task, user_id: member.id, task_pool_id: @task_pool.id), method: :delete, class: 'bg-red-500 hover:bg-red-600 text-white font-bold px-1 mb-2 rounded-full' %>
+                <% end %>
                 <p class="text-md ml-2 font-semibold"><%= member.email %></p>
               </div>
             <% end %>
@@ -51,7 +53,9 @@
                     <p class="text-sm font-semibold mt-2"><%= show_attachment(task) %></p>
                     <a href="<%= attachment(task) %>" class="flex justify-center items-center py-2 my-2 rounded-md text-sm font-medium text-white font-semibold bg-indigo-700 w-1/2 whitespace-nowrap" target="_blank">View & Download</a>
                     <embed src="<%= attachment(task) %>" type="application/pdf" height="440px">
-                    <%= link_to 'Delete Attachment', delete_attachment_task_path(task), method: :get, class: "flex justify-center items-center mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 w-7/12 rounded whitespace-nowrap" %>
+                    <% if can? :create, Task %>
+                      <%= link_to 'Delete Attachment', delete_attachment_task_path(task), method: :get, class: "flex justify-center items-center mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 w-7/12 rounded whitespace-nowrap" %>
+                    <% end %>
                   <% end %>
                 </div>
               </div>                  
