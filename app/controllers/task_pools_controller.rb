@@ -6,7 +6,7 @@ class TaskPoolsController < ApplicationController
 
   def index
     @user = User.find(current_user.id)
-    @task_pools = @user.teamleader? ? @user.task_pools.uniq : @user.assigned_task_pools.uniq
+    @user.teamleader? ? @task_pools = @user.task_pools.uniq : @task_pools = @user.assigned_task_pools.uniq
   end
 
   def show

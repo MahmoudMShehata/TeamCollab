@@ -1,6 +1,6 @@
 <% @tasks.each do |task| %>
   <% if to_do(task) %>
-    <div class="border-2 border-red-500 p-4 rounded-md">
+    <div class="border-2 border-red-600 p-4 rounded-md">
       <div class="flex justify-between">
         <h3 class="text-lg text-black font-bold mb-2"><%= task.title.capitalize %></h3>
         <% if can? :create, Task %>
@@ -20,18 +20,21 @@
           <p class="text-blue-500 font-bold mr-3">Collaborators: </p>
           <div class="flex flex-col">
             <% task.users.each do |member| %>
-              <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+              <div class="flex">
+                <% if can? :create, Task %>
+                  <%= link_to 'x', remove_collaborator_task_path(task, user_id: member.id, task_pool_id: @task_pool.id), method: :delete, class: 'bg-red-500 hover:bg-red-600 text-white font-bold px-1 mb-2 rounded-full' %>
+                <% end %>
+                <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+              </div>
             <% end %>
           </div>
         </div>
         <% if can? :create, Task %>
           <%= form_for(task, url: add_collaborator_task_path(task), method: :post) do |form| %>
             <div class="flex">
-              <%= form.label :collaborator, "Members:", class: "text-blue-500 font-bold mr-3 mt-4 whitespace-nowrap mr-12" %>
-              <%= form.collection_select :user_ids, User.where(teamleader: false), :id, :email, {}, { class: "form-select mt-1 block rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300" } %>
-            </div>
-            <div class="flex justify-end mt-4">
-              <%= form.submit "Add Member", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded" %>
+              <%= form.label :collaborator, "Members:", class: "text-blue-500 font-bold mr-3 whitespace-nowrap mr-12" %>
+              <%= form.collection_select :user_ids, User.where(teamleader: false), :id, :email, {}, { class: "form-select mt-1 block rounded-md border-gray-300 shadow-sm rounded-md border border-gray-300 mr-2" } %>
+              <%= form.submit "Add Member", class: "bg-blue-500 hover:bg-blue-700 text-white px-2 py-.5 font-bold rounded" %>
             </div>
           <% end %>
         <% end %>
@@ -46,7 +49,14 @@
                 <%= form.label :attachment, "Attachment:", class:"text-blue-500 font-bold whitespace-nowrap mr-8 mt-4" %>
                 <div class="flex flex-col">
                   <%= form.file_field :attachment, class: "bg-white border border-gray-300 rounded-md shadow-sm text-sm mt-4" %>
-                  <p class="text-sm font-semibold mt-2"><%= show_attachment(task) %></p>
+                  <% if task.attachment.id %>
+                    <p class="text-sm font-semibold mt-2"><%= show_attachment(task) %></p>
+                    <a href="<%= attachment(task) %>" class="flex justify-center items-center py-2 my-2 rounded-md text-sm font-medium text-white font-semibold bg-indigo-700 w-1/2 whitespace-nowrap" target="_blank">View & Download</a>
+                    <embed src="<%= attachment(task) %>" type="application/pdf" height="440px">
+                    <% if can? :create, Task %>
+                      <%= link_to 'Delete Attachment', delete_attachment_task_path(task), method: :get, class: "flex justify-center items-center mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 w-7/12 rounded whitespace-nowrap" %>
+                    <% end %>
+                  <% end %>
                 </div>
               </div>                  
               <div class="flex justify-end mt-4">

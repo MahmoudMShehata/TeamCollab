@@ -3,7 +3,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  has_many :task_users
+  has_many :tasks, through: :task_users 
   has_many :task_pools, foreign_key: 'team_leader_id', dependent: :destroy, inverse_of: :team_leader
   has_and_belongs_to_many :tasks
   has_many :assigned_tasks, through: :tasks_users, source: :task
@@ -14,6 +15,10 @@ class User < ApplicationRecord
     task_pools.sum { |pool| pool.tasks.count }
   end
 
+  def assigned_task_pools
+    tasks.map(&:task_pool).uniq
+  end
+  
   def overdue_tasks
     Task.joins(:task_pool).where.not(progress: 'done')
         .where(task_pools: { team_leader_id: id })

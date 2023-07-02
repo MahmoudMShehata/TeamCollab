@@ -43,6 +43,28 @@ class TasksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def remove_collaborator
+    @task = Task.find(params[:id])
+    collaborator = User.find(params[:user_id].to_i)
+    @task.users.delete(collaborator)
+    
+    redirect_back(fallback_location: root_path)
+  end
+  
+  def delete_attachment
+    s3 = Aws::S3::Resource.new(region: 'eu-north-1')
+    task = Task.find(params[:id])
+    task_pool = TaskPool.find(task.task_pool.id)
+    blob = ActiveStorage::Blob.find(task.attachment.id)
+    bucket = s3.bucket('teamcollabs-development')
+    obj = bucket.object(blob.key)
+
+    obj.delete
+    task.attachment.purge
+
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def task_params
