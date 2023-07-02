@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     member do
       post 'add_collaborator'
       get 'remove_collaborator'
+      get 'delete_attachment'
     end
   end
   resources :task_pools do
