@@ -18,7 +18,7 @@ module TaskPoolsHelper
   end
 
   def attachment(task)
-    s3 = Aws::S3::Resource.new(region: 'eu-north-1', access_key_id: 'AKIA2IPOOV7LXOY3YGR5', secret_access_key: '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')
+    s3 = Aws::S3::Resource.new(region: 'eu-north-1')
     blob = ActiveStorage::Blob.find(task.attachment.id)
 
     obj = s3.bucket('teamcollabs-development').object(blob.key)

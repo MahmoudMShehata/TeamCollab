@@ -52,7 +52,7 @@ class TasksController < ApplicationController
   end
   
   def delete_attachment
-    s3 = Aws::S3::Resource.new(region: 'eu-north-1', access_key_id: 'AKIA2IPOOV7LXOY3YGR5', secret_access_key: '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')
+    s3 = Aws::S3::Resource.new(region: 'eu-north-1')
     task = Task.find(params[:id])
     task_pool = TaskPool.find(task.task_pool.id)
     blob = ActiveStorage::Blob.find(task.attachment.id)
