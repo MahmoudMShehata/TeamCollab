@@ -24,6 +24,8 @@ Style/Documentation:
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'spec/**/*.rb'
+Metrics/AbcSize:
+  Enabled: false
 Metrics/BlockLength:
   Exclude:
     - '**/*.rake'

@@ -23,10 +23,10 @@
             <div class="rounded-box">
               <h2 class="flex justify-center items-center pb-5"><%= task_pool.name.capitalize %></h2>
               <p>Tasks: <%= task_pool.tasks.count %></p>
-              <p>Team Members: <%= task_pool.team_members.count %></p>
+              <p>Team Members: <%= task_pool.team.count %></p>
               <p>Finished Tasks: <%= task_pool.tasks.where(progress: "done").count %></p>
               <p>In progress Tasks: <%= task_pool.tasks.where(progress: "in_progress").count %></p>
-              <p>Unfinished Tasks: <%= task_pool.tasks.where(progress: "done").count %></p>
+              <p>To do Tasks: <%= task_pool.tasks.where(progress: "to_do").count %></p>
             </div>
           </a>
         </div>

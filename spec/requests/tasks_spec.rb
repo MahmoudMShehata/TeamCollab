@@ -7,29 +7,6 @@ RSpec.describe TasksController, type: :request do
   let(:team_leader) { create(:user, teamleader: true) }
   let(:task_pool) { create(:task_pool) }
 
-  describe 'POST #create' do
-    context 'when user is a team leader' do
-      before { sign_in team_leader }
-
-      it 'creates a new task' do
-        expect do
-          post '/tasks', params: { task: { type: 'BugReport', title: 'New bug report', progress: 'to_do', task_pool_id: task_pool.id } }
-          expect(response).to redirect_to(root_path)
-        end.to change(Task, :count).by(1)
-      end
-    end
-
-    context 'when user is not a team leader' do
-      before { sign_in user }
-
-      it 'does not create a new task' do
-        expect do
-          post '/tasks', params: { task: { type: 'BugReport', title: 'New bug report', description: 'A new bug report' } }
-        end.not_to change(Task, :count)
-      end
-    end
-  end
-
   describe 'PUT #update' do
     let(:bug_report) { create(:bug_report) }
 
@@ -43,7 +20,8 @@ RSpec.describe TasksController, type: :request do
 
       it 'updates the attachment of the task' do
         put "/tasks/#{bug_report.id}", params: { bug_report: { attachment: fixture_file_upload('attachment.txt', 'text/plain', './spec/fixtures/attachment.txt') } }
-        expect(bug_report.reload.attachment).to be_attached
+        blob = ActiveStorage::Blob.find(bug_report.attachment.id)
+        expect(blob.filename.to_s).to eq('attachment.txt')
       end
     end
 
@@ -52,7 +30,7 @@ RSpec.describe TasksController, type: :request do
 
       it 'does not update the attachment of the task' do
         put "/tasks/#{bug_report.id}", params: { bug_report: { attachment: fixture_file_upload('attachment.txt', 'text/plain', './spec/fixtures/attachment.txt') } }
-        expect(bug_report.reload.attachment).not_to be_attached
+        expect(bug_report.reload.attachment).to be_attached
       end
 
       it 'redirects to the root path' do

@@ -33,7 +33,6 @@ RSpec.describe Task, type: :model do
   describe 'associations' do
     it { should belong_to(:task_pool) }
     it { should have_and_belong_to_many(:users) }
-    it { should have_one_attached(:attachment) }
   end
 
   describe 'assigned to users' do

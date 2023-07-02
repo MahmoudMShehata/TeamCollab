@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
-  before_action :require_team_leader, only: %i[create update destroy]
+  before_action :require_team_leader, only: %i[destroy]
   authorize_resource except: %i[index show update]
 
   def index
@@ -10,12 +10,6 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
-  end
-
-  def create
-    @task = Task.new(task_params)
-
-    redirect_back(fallback_location: root_path)
   end
 
   def update
@@ -36,12 +30,11 @@ class TasksController < ApplicationController
   def add_collaborator
     @task = Task.find(params[:id])
 
-    case
-    when params[:feature_request]
+    if params[:feature_request]
       @new_member = User.find(params[:feature_request][:user_ids].to_i)
-    when params[:bug_report]
+    elsif params[:bug_report]
       @new_member = User.find(params[:bug_report][:user_ids].to_i)
-    when params[:marketing_campaign]
+    elsif params[:marketing_campaign]
       @new_member = User.find(params[:marketing_campaign][:user_ids].to_i)
     end
 

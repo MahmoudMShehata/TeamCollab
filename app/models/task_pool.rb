@@ -7,4 +7,8 @@ class TaskPool < ApplicationRecord
 
   validates :team_leader, presence: true
   validates :name, presence: true
+
+  def team
+    User.joins(:tasks).where(tasks: { task_pool_id: id }).distinct
+  end
 end

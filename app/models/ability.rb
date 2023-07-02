@@ -4,7 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    return unless user.teamleader?
+    return unless user.present? && user.teamleader?
 
     can :manage, Task
     can :manage, TaskPool
