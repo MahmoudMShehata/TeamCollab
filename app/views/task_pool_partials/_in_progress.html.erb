@@ -20,7 +20,10 @@
           <p class="text-blue-500 font-bold mr-3">Collaborators: </p>
           <div class="flex flex-col">
             <% task.users.each do |member| %>
-              <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+              <div class="flex">
+                <%= link_to 'x', remove_collaborator_task_path(task, user_id: member.id, task_pool_id: @task_pool.id), method: :delete, class: 'bg-red-500 hover:bg-red-600 text-white font-bold px-1 mb-2 rounded-full' %>
+                <p class="text-md ml-2 font-semibold"><%= member.email %></p>
+              </div>
             <% end %>
           </div>
         </div>
@@ -46,8 +49,12 @@
                 <%= form.label :attachment, "Attachment:", class:"text-blue-500 font-bold whitespace-nowrap mr-8 mt-4" %>
                 <div class="flex flex-col">
                   <%= form.file_field :attachment, class: "bg-white border border-gray-300 rounded-md shadow-sm text-sm mt-4" %>
-                  <p class="text-sm font-semibold mt-2"><%= show_attachment(task) %></p>
+                  <% if task.attachment.id %>
+                    <p class="text-sm font-semibold mt-2"><%= show_attachment(task) %></p>
+                    <a href="<%= upload_to_s3(task) %>" class="px-1 py-2 rounded-md text-sm font-medium text-white font-semibold bg-indigo-700 w-1/2 whitespace-nowrap" target="_blank">View Attachment</a>
+                  <% end %>
                 </div>
+                <iframe src="<%= upload_to_s3(task) %>" width="100%" height="600px"></iframe>
               </div>                  
               <div class="flex justify-end mt-4">
                 <%= form.submit "Update Progress/Attachment", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded" %>

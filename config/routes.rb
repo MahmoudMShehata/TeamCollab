@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :tasks do
     member do
       post 'add_collaborator'
+      get 'remove_collaborator'
     end
   end
   resources :task_pools do

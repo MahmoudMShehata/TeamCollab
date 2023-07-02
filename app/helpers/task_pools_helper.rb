@@ -17,6 +17,15 @@ module TaskPoolsHelper
     task.progress == 'done'
   end
 
+  def upload_to_s3(task)
+    s3 = Aws::S3::Resource.new(region: 'eu-north-1', access_key_id: 'AKIA2IPOOV7LXLZ72MFZ', secret_access_key: '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')
+    blob = ActiveStorage::Blob.find(task.attachment.id)
+
+    obj = s3.bucket('teamcollabs-development').object(blob.key)
+    
+    obj.presigned_url(:get, response_content_disposition: "attachment; filename=#{blob.filename.to_s}")
+  end
+
   def show_attachment(task)
     return 'No attached file yet.' unless task.attachment.id
 

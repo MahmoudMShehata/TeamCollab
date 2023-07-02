@@ -43,6 +43,14 @@ class TasksController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def remove_collaborator
+    @task = Task.find(params[:id])
+    collaborator = User.find(params[:user_id].to_i)
+    @task.users.delete(collaborator)
+    
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def task_params
